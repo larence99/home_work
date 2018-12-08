@@ -1,0 +1,79 @@
+#include <iostream>
+using namespace std;
+class stack {
+
+private:
+	struct node {
+		int value;
+		node* prev = nullptr; //NULL
+	};
+	node* top;
+	bool is_empty();
+
+public: //public API
+	stack() : top(nullptr) {}
+	~stack() {}
+	void push(int value);
+	int* pop();
+	void reverse();
+
+};
+
+
+bool stack::is_empty() {
+	return !top;
+}
+
+
+// stack::stack() {
+// 	top = nullptr;
+// }
+
+
+void stack::push(int value) {
+	node* tmp = new node();
+	tmp->value = value;
+	tmp->prev = top;
+	top = tmp;
+}
+
+
+int* stack::pop() {
+
+	if (!is_empty()) {
+		int* tmp_val = new int(top->value);
+		node* tmp_top = top;
+		top = top->prev;
+		delete tmp_top;
+		return tmp_val;
+	}
+	return nullptr;
+}
+
+void stack::reverse() {
+	int n = 10;
+	int mass = n;
+	int** p = new int*[mass];
+	for (int i = 0; i <= mass; i++) { p[i] = pop(); }
+	for (int tmp = 0; tmp < mass; tmp++) { push(*p[tmp]); }
+}
+
+int main() {
+	stack stack;
+	int size = 10;
+	for (int i = 0; i < size; i++) {
+		stack.push(i);
+		
+	}
+
+	stack.reverse();
+	for (int i = 0; i < size; i++) {
+		cout << *stack.pop();
+	}
+	//TODO
+	// implement stack filling
+	// implement read method
+	// implement reverse() with pointer mangling
+
+	return 0;
+}
