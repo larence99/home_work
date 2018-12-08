@@ -1,0 +1,65 @@
+#include <iostream>
+using namespace std;
+class Complex {
+private:
+
+	double re;
+	double im;
+public:
+	Complex(double re, double im) {
+		this->re = re;
+		this->im = im;
+	}
+	~Complex() {}
+
+
+	void add(Complex num) {
+		re += num.re;
+		im += num.im;
+	}
+	void multiply(Complex num) {
+		double rre;
+		double iim;
+		rre = (re*(num.re) - im*(num.im));
+		iim = (re*(num.im) + im*(num.re));
+		re = rre;
+		im = iim;
+	}
+	double abs() {
+		return sqrt(re*re + im*im);
+	}
+	double getRe() {
+		return re;
+	}
+	double getIm() {
+		return im;
+	}
+
+};
+
+
+int main() {
+	Complex a(2, 4);
+	Complex b(1, 2);
+	a.add(b);
+	cout << endl;
+	if (a.getIm() < 0)
+		cout << a.getRe() << '-' << a.getIm() << 'i';
+	else
+		cout << a.getRe() << '+' << a.getIm() << 'i';
+
+	a.multiply(b);
+	cout << endl;
+	if (a.getIm() < 0)
+		cout << a.getRe() << '-' << a.getIm() << 'i';
+	else
+		cout << a.getRe() << '+' << a.getIm() << 'i';
+	cout << endl;
+	cout << a.abs();
+	return 0;
+
+
+
+
+
+}
