@@ -1,0 +1,161 @@
+#include <iostream>
+#include <string>
+#include <list>
+
+using std::cout;
+using std::cin;
+using std::endl;
+using std::list;
+class Complex {
+private:
+	double re;
+	double im;
+
+public:
+	Complex(double re1, double im1) {
+		re = re1;
+		im = im1;
+	}
+	~Complex() {}
+
+	void setRe(double real) {
+		re = real;
+	}
+	void setIm(double imag) {
+		im = imag;
+	}
+
+	void add(Complex number) {
+		re += number.re;
+		im += number.im;
+	}
+
+	void multiply(Complex number) {
+		Complex c(0, 0);
+		//re = (re* (number.re) - im*(number.im));
+		//im = (re*(number.im) + im*(number.re));
+		c.re = (re* (number.re) - im*(number.im));
+		c.im = (re*(number.im) + im*(number.re));
+		re = c.re;
+		im = c.im;
+	}
+
+	double abs() {
+		return sqrt(re*re + im*im);
+	}
+
+	double getComplexRe() {
+		return re;
+	}
+	double getComplexIm() {
+		return im;
+	}
+};
+
+
+
+class MathVector {
+private:
+	unsigned int dim;
+	list<Complex> crd;
+	void resize(unsigned int size);
+	unsigned int getDim();
+public:
+
+	MathVector::MathVector(int dim) {
+		resize(dim);
+	}
+	~MathVector() {}
+	Complex abs();
+	void add(MathVector&);
+	Complex MathVector::scal(MathVector&);
+
+
+};
+
+void MathVector::resize(unsigned int size) {
+	crd.resize(size);
+	dim = size;
+}
+unsigned int MathVector::getDim() {
+	return dim;
+}
+MathVector::MathVector(int dimm) {
+	resize(dimm);
+}
+
+Complex MathVector::abs() {
+	Complex result(0, 0);
+	Complex square(0, 0);
+	list<Complex>::iterator it;
+	for (it = crd.begin(); it != crd.end(); it++)
+	{
+		square.setIm(0);
+		square.setRe(0);
+		square = (*it);
+		square.multiply(square);
+		result.add(square);
+	}
+	return result;
+}
+
+void MathVector::add(MathVector& item) {
+	list<Complex>::iterator it;
+	list<Complex>::iterator it2;
+	if (dim == item.getDim()) {
+		for (it = crd.begin(), it2 = item.crd.begin(); it != crd.end(); it++, it2++) {
+			it->add((*it2));
+		}
+	}
+	if (crd.size() > item.crd.size()) {
+		Complex temp(0, 0);
+		while (dim != item.getDim()) {
+			item.crd.push_back(temp);
+		}
+		item.resize(crd.size());
+		add(item);
+	}
+	if (crd.size()  < item.crd.size()) {
+		Complex temp(0, 0);
+		while (dim != item.getDim()) {
+			crd.push_back(temp);
+		}
+		resize(item.crd.size());
+		add(item);
+	}
+}
+
+Complex MathVector::scal(MathVector& item) {
+	list<Complex>::iterator it;
+	list<Complex>::iterator it2;
+	Complex result(0, 0);
+	if (dim == item.getDim()) {
+		for (it = crd.begin(), it2 = item.crd.begin(); it != crd.end(); it++, it2++) {
+			it->multiply((*it2));
+			result.add(*it);
+		}
+	}
+	if (crd.size() > item.crd.size()) {
+		Complex temp(0, 0);
+		while (dim != item.getDim()) {
+			item.crd.push_back(temp);
+		}
+		item.resize(crd.size());
+		scal(item);
+	}
+	if (crd.size()  < item.crd.size()) {
+		Complex temp(0, 0);
+		while (dim != item.getDim()) {
+			crd.push_back(temp);
+		}
+		resize(item.crd.size());
+		scal(item);
+	}
+	return result;
+}
+
+int main() {
+
+
+	return 0;
+}
