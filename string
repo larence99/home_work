@@ -1,46 +1,78 @@
 #include <iostream>
-#include <string.h>
-class Stroka {
+
+class MyString {
 private:
-	char* firststring;
-	int size;
+	char * str;
+	int len;
 public:
-	void append(char* firststring);
-	void split(char* delim);
-	string substring(int startPos, int num);
-	Stroka(char* array) { firststring = array; }
+	MyString() : str('\0') {}
+	MyString(char*  s) {
+		str = s;
+	}
+	void setLen(int len1) {
+		len = len1;
+	}
+	int getLen() {
+		return len;
+	}
+	char* getString() {
+		
+	}
+	~MyString() {};
+	void append(MyString);
+	MyString SubString(int, int);
+	void split(char*);
 
 };
-void Stroka::append(char* secondstring) {
-	int newsize = strlen(secondstring);
-	int lensecond = newsize;
-	int lenfirst = size;
-	size += newsize;
-	char* string = new char[size];
 
-	for (int i = 0; i < lenfirst; i++) {
-		string[i] = firststring[i];
+void MyString::append(MyString s) {
+	int common = len + s.getLen();
+	char* tot = new char[common];
+
+	for (int i = 0; i < len+1; i++) {
+		tot[i] = str[i];
 	}
-	for (int i = lenfirst; i < size; i++) {
-		string[i] = secondstring[i];
+	
+	for (int i = len+1; i < s.len; i++) {
+		tot[i] = s.str[i];
+	}
+	
+	for (int i = 0; i < common; i++) {
+		std::cout << tot[i];
 	}
 }
 
-string Stroka::substring(int startPos, int num) {
-	char* tmp = new char[num];
-	for (int i = startPos; i < startPos + num; i++) {
-		tmp[i] = firststring[i];
+MyString MyString::SubString(int first, int second) {
+	char* tot = new char(second);
+
+	for (int i = first; i < first + second; i++) {
+		tot[i] = str[i];
 	}
-	return tmp;
+	MyString total(tot);
+
+	return total;
 }
 
-
-void Stroka::split(char* delim) {
-	for (int i = 0; i < size; i++) {
-		if (firststring[i] == *delim) {
-			char *tmp = new char[i];
-			for (j = 0; j<i; j++)tmp[j] = firststring[j];
-			cout << *tmp<<endl;
+void MyString::split(char* sym) {
+	int count = 0;
+	for (int i = 0; i < len; i++) {
+		if (str[i] == *sym) {
+			char* tmp = new char[i]; 
+			for (int j = count; j < i; j++) {
+				tmp[j] = str[i];
+			}
+			for (int c = count; c < i; c++) {
+				std::cout << str[c];
+			}
+			count = i + 1;
+		
 		}
 	}
+}
+
+
+
+int main() {
+
+	return 0;
 }
