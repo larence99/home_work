@@ -32,8 +32,6 @@ public:
 
 	void multiply(Complex number) {
 		Complex c(0, 0);
-		//re = (re* (number.re) - im*(number.im));
-		//im = (re*(number.im) + im*(number.re));
 		c.re = (re* (number.re) - im*(number.im));
 		c.im = (re*(number.im) + im*(number.re));
 		re = c.re;
