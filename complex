@@ -7,8 +7,8 @@ private:
 	double im;
 public:
 	Complex(double re, double im) {
-		this->re = re;
-		this->im = im;
+		re = re;
+		im = im;
 	}
 	~Complex() {}
 
